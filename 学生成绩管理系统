@@ -1,0 +1,78 @@
+def show_menu():
+    print("学生成绩管理系统")
+    print("1.录入学生成绩")
+    print("2.查询学生成绩")
+    print("3.统计单科成绩")
+    print("4.退出系统")
+
+def add_student(students):
+    res = input("输入学生学号：")
+
+    if res in students:
+        print("该学号已存在，无法重复录入！\n")
+        return
+    name = input("输入学生姓名：")
+
+    try:
+        computer = float(input("输入计算机成绩："))
+        math = float(input("输入数学成绩："))
+        python = float(input("输入python成绩："))
+    except ValueError:
+        print("成绩必须输入数字，录入失败！\n")
+        return
+
+    info = {"姓名": name, "计算机": computer, "数学": math, "python": python}
+    students[res] = info
+    print("录入完成\n")
+
+def search_student(students):
+    res = input("输入要查询的学号：")
+    if res in students:
+        s = students[res]
+        print("====学生信息====")
+        print("姓名：", s["姓名"])
+        print("计算机：", s["计算机"])
+        print("数学：", s["数学"])
+        print("python：", s["python"])
+        avg = (s["计算机"] + s["数学"] + s["python"]) / 3
+        print("平均分：%.2f\n" % avg)
+    else:
+        print("该学生不存在\n")
+
+def stat_subject(students):
+    subject = input("选择统计科目(计算机/数学/python)：")
+
+    if subject not in ["计算机", "数学", "python"]:
+        print("输入科目不存在，请输入计算机/数学/python\n")
+        return 
+
+    score_list = []
+    for data in students.values():
+        score_list.append(data[subject])
+    if len(score_list) == 0:
+        print("暂无学生数据\n")
+    else:
+        print(f"{subject}全班统计")
+        print("最高分：", max(score_list))
+        print("最低分：", min(score_list))
+        print("平均分：%.2f\n" % (sum(score_list)/len(score_list)))
+
+def main():
+    students_dict = {}
+    while True:
+        show_menu()
+        choice = input("请选择功能：")
+        if choice == "1":
+            add_student(students_dict)
+        elif choice == "2":
+            search_student(students_dict)
+        elif choice == "3":
+            stat_subject(students_dict)
+        elif choice == "4":
+            print("结束进程")
+            break
+        else:
+            print("输入序号有误，请重新输入\n")
+
+if __name__ == "__main__":
+    main()
