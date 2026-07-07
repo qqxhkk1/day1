@@ -29,7 +29,7 @@ def search_student(students):
     res = input("输入要查询的学号：")
     if res in students:
         s = students[res]
-        print("====学生信息====")
+        print("学生信息")
         print("姓名：", s["姓名"])
         print("计算机：", s["计算机"])
         print("数学：", s["数学"])
