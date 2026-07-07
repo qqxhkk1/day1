@@ -1,0 +1,116 @@
+import math
+
+def show_menu():
+    print("\n计算器系统")
+    print("1. 加法运算")
+    print("2. 减法运算")
+    print("3. 乘法运算")
+    print("4. 除法运算")
+    print("5. 幂运算")
+    print("6. 平方根运算")
+    print("7. 查看历史记录")
+    print("0. 退出进程")
+
+def save_record(expr, result):
+    with open("calc.txt", "a", encoding="utf-8") as f:
+        f.write(f"{expr} = {result}\n")
+
+def read_record():
+    try:
+        with open("calc.txt", "r", encoding="utf-8") as f:
+            print("\n历史记录")
+            print(f.read())
+    except FileNotFoundError:
+        print("\n暂无历史记录文件！")
+
+def add(a, b):
+    return a + b
+
+def sub(a, b):
+    return a - b
+
+def mul(a, b):
+    return a * b
+
+def div(a, b):
+    if b == 0:
+        raise ZeroDivisionError("错误：除数不能为0")
+    return a / b
+
+def power(a, b):
+    return a ** b
+
+def sqrt_num(a):
+    if a < 0:
+        raise ValueError("错误：负数无法开平方")
+    return math.sqrt(a)
+
+def main():
+    while True:
+        show_menu()
+
+        try:
+            choice = int(input("请选择功能序号："))
+        except ValueError:
+            print("输入错误！请输入数字")
+            continue
+
+        if choice == 1:
+            n1 = float(input("输入第一个数字："))
+            n2 = float(input("输入第二个数字："))
+            res = add(n1, n2)
+            print(f"计算结果：{n1} + {n2} = {res}")
+            save_record(f"{n1}+{n2}", res)
+
+        elif choice == 2:
+            n1 = float(input("输入第一个数字："))
+            n2 = float(input("输入第二个数字："))
+            res = sub(n1, n2)
+            print(f"计算结果：{n1} - {n2} = {res}")
+            save_record(f"{n1}-{n2}", res)
+
+        elif choice == 3:
+            n1 = float(input("输入第一个数字："))
+            n2 = float(input("输入第二个数字："))
+            res = mul(n1, n2)
+            print(f"计算结果：{n1} × {n2} = {res}")
+            save_record(f"{n1}*{n2}", res)
+
+        elif choice == 4:
+            try:
+                n1 = float(input("输入被除数："))
+                n2 = float(input("输入除数："))
+                res = div(n1, n2)
+                print(f"计算结果：{n1} ÷ {n2} = {res}")
+                save_record(f"{n1}/{n2}", res)
+            except (ZeroDivisionError, ValueError) as e:
+                print(e)
+
+        elif choice == 5:
+            n1 = float(input("输入底数："))
+            n2 = float(input("输入指数："))
+            res = power(n1, n2)
+            print(f"计算结果：{n1}的{n2}次方 = {res}")
+            save_record(f"{n1}**{n2}", res)
+
+        elif choice == 6:
+            try:
+                n = float(input("输入开方数字："))
+                res = sqrt_num(n)
+                print(f"计算结果：{n}的平方根 = {res}")
+                save_record(f"sqrt({n})", res)
+            except ValueError as e:
+                print(e)
+
+        elif choice == 7:
+            read_record()
+
+        elif choice == 0:
+            print("退出计算器，运算记录已保存！")
+            break
+
+        else:
+            print("输入序号无效，请重新选择！")
+
+if __name__ == "__main__":
+    main()
